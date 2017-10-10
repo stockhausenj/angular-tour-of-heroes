@@ -1,0 +1,8 @@
+{
+	"name": "jayismyhero",
+	"dependencies": {
+		"express": "latest",
+		"nano": "latest",
+		"cookie": "latest"
+	}
+}
