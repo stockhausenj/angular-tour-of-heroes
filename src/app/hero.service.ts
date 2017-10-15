@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+import 'rxjs/add/operator/map'
 
 import { Hero } from './hero';
-import { HEROES } from './mock-heroes';
 
 // The Injectable decorator tells TypeScript to emit metadata about the service.
 @Injectable()
 export class HeroService {
-	// A Promise promises to call back when the results are ready.
-	getHeroes(): Promise<Hero[]> {
-		return Promise.resolve(HEROES);
-	}
+	//  HEROES: Hero[];
+	constructor(private http: HttpClient) {}
 
-	getHero(id: number): Promise<Hero> {
+	getHeroes() {
+		return this.http.get('/api/items').map((res:Response) => res['results']);
+	}
+	getHero(id: number) {
 		return this.getHeroes()
-		.then(heroes => heroes.find(hero => hero.id === id));
+		.subscribe(heroes => heroes.find(hero => hero.id === id));
 	}
 }

@@ -29,7 +29,7 @@ export class HeroesComponent implements OnInit {
 		// A Promise is a asynchronous technique. 
 		// Pass the callback function as an argument to the Promise's then() method.
 		// The arrow function is more succinct than the equivalent function expression.
-		this.heroService.getHeroes().then(heroes => this.heroes = heroes);
+		this.heroService.getHeroes().subscribe(heroes => this.heroes = heroes);
 	}
 
 	onSelect(hero: Hero): void {
