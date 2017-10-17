@@ -16,6 +16,6 @@ export class HeroService {
 	}
 	getHero(id: number) {
 		return this.getHeroes()
-		.subscribe(heroes => heroes.find(hero => hero.id === id));
+			.subscribe(heroes => heroes.find(hero => hero.id === id));
 	}
 }

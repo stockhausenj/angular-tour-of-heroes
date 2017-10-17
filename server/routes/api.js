@@ -1,27 +1,26 @@
 const express = require('express');
-const router = express.Router();
 const path = require('path');
+const MongoClient = require('mongodb').MongoClient;
 
-router.get('/items', (req, res) => {
-	var MongoClient = require('mongodb').MongoClient
+const router = express.Router();
+const fs = require('fs');
+const creds = fs.readFileSync(path.join(__dirname, '/../mongodb.creds'));
+const jsonContent = JSON.parse(creds);
+const user = jsonContent.user;
+const pwd = jsonContent.pwd;
+const server = jsonContent.server;
+const url = 'mongodb://' + user + ':' + pwd + '@' + server + '/heroes';
 
-	let fs = require('fs');
-  let creds = fs.readFileSync(path.join(__dirname, '/../mongodb.creds'));
-	let jsonContent = JSON.parse(creds);
-	let user = jsonContent.user;
-	let pwd = jsonContent.pwd;
-
-	MongoClient.connect('mongodb://' + user + ':' + pwd + '@35.188.62.113:27017/heroes', function (err, db) {
-		if (err) throw err
-
-		db.collection('heroes').find().toArray(function (err, result) {
-			if (err) throw err
-
-      let heroes = {}
-      heroes['results'] = result;
-      res.send(heroes);
-		})
-		})
+router.get('/items', async(req, res) => {
+	try {
+		const db = await MongoClient.connect(url);
+		const docs = await db.collection('heroes').find().toArray();
+		const heroes = {};
+		heroes['results'] = docs;
+		res.send(heroes);
+	} catch(error) {
+		console.error(error);
+	}
 });
 
 module.exports = router;
