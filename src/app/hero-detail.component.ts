@@ -12,7 +12,7 @@ import { Hero } from './hero';
 	styleUrls: ['./hero-detail.component.css']
 })
 export class HeroDetailComponent implements OnInit {
-  @Input() hero: Hero;
+	@Input() hero: Hero;
 
 	constructor(
 		private heroService: HeroService,
@@ -21,9 +21,9 @@ export class HeroDetailComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		//this.route.paramMap
-		//.switchMap((params: ParamMap) => this.heroService.getHero(+params.get('id')));
-		//.subscribe(hero => this.hero = hero);
+		this.route.paramMap
+		.switchMap((params: ParamMap) => this.heroService.getHero(params.get('id')))
+		.subscribe(hero => this.hero = hero);
 	}
 
 	goBack(): void {
